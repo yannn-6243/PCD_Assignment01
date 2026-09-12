@@ -8,51 +8,51 @@ NIM: 25/559377/PA/23527
 
 **1. Pendahuluan**
 
-Tugas ini menjelaskan implementasi program down sampling dan up sampling citra digital secara manual, tanpa menggunakan fungsi resize bawaan library. Down sampling dikerjakan menggunakan 3 metode: Max Pooling, Average Pooling, dan Median Pooling. Up sampling menggunakan 3 metode: Nearest Neighbor (NN), Bilinear, dan Bicubic. Seluruh logika inti menggunakan perulangan (for loop), sedangkan library cv2 dan numpy hanya dipakai untuk membaca dan menulis file citra serta menyimpan data dalam bentuk array, bukan untuk proses perhitungannya.
+Laporan ini membahas implementasi program down sampling dan up sampling pada citra digital yang dikembangkan secara manual, tanpa memanfaatkan fungsi resize bawaan pustaka (library). Proses down sampling diuji menggunakan tiga metode, yaitu Max Pooling, Average Pooling, dan Median Pooling. Adapun proses up sampling diuji menggunakan tiga metode lain, yaitu Nearest Neighbor (NN), Bilinear, dan Bicubic. Seluruh logika perhitungan inti disusun menggunakan struktur perulangan (for loop), sementara pustaka cv2 dan numpy hanya digunakan untuk membaca dan menulis berkas citra serta menyimpan data dalam bentuk array, bukan untuk melakukan proses perhitungan itu sendiri.
 
-Percobaan dilakukan pada 3 foto dengan karakteristik berbeda:
+Pengujian dilakukan terhadap tiga citra dengan karakteristik yang berbeda-beda:
 
-Sawah : pemandangan sawah dan gunung, banyak tekstur alami (daun padi, pohon kelapa).
-Sunset : matahari terbenam di pantai, gradasi warna halus di langit plus 1 titik yang sangat terang (matahari).
-Pionir : suasana taman Pionir Gadjah Mada pada pagi hari, cahaya matahari menembus sela-sela pohon (backlit), sehingga kontrasnya sangat tinggi.
+- **Sawah**: menampilkan pemandangan sawah dan gunung dengan tekstur alami yang cukup banyak, seperti daun padi dan pohon kelapa.
+- **Sunset**: menampilkan matahari terbenam di pantai dengan gradasi warna yang halus pada langit, disertai satu titik yang sangat terang, yaitu matahari.
+- **Pionir**: menggambarkan suasana Taman Pionir Gadjah Mada pada pagi hari, dengan cahaya matahari yang menembus sela-sela pepohonan (backlit) sehingga menghasilkan kontras yang tinggi.
 
-Ketiga foto terlebih dahulu diresize ukurannya menjadi 400x300 piksel sebagai baseline, agar dapat dibandingkan secara adil pada tahap selanjutnya.
+Ketiga citra tersebut terlebih dahulu diubah ukurannya menjadi 400x300 piksel sebagai baseline, agar perbandingan pada tahap selanjutnya dapat dilakukan secara setara.
 
 **2. Metode**
 
-Down sampling dan up sampling pada percobaan ini dilakukan secara terpisah, bukan berurutan. Artinya:
+Proses down sampling dan up sampling pada penelitian ini dilaksanakan secara terpisah, bukan secara berurutan. Rinciannya sebagai berikut:
 
-Down sampling dilakukan langsung dari citra baseline (400x300), diperkecil 4 kali menggunakan Max/Average/Median Pooling, sehingga menghasilkan ukuran 100x75.
-Up sampling juga dilakukan langsung dari citra baseline yang sama (400x300), diperbesar 4 kali menggunakan NN/Bilinear/Bicubic, sehingga menghasilkan ukuran 1600x1200.
+Down sampling dilakukan langsung dari citra baseline (400x300), diperkecil sebanyak empat kali menggunakan metode Max Pooling, Average Pooling, dan Median Pooling, sehingga menghasilkan citra berukuran 100x75.
+Up sampling juga dilakukan langsung dari citra baseline yang sama (400x300), diperbesar sebanyak empat kali menggunakan metode NN, Bilinear, dan Bicubic, sehingga menghasilkan citra berukuran 1600x1200.
 
-Kedua proses ini murni digunakan untuk menguji performa masing-masing metode secara independen, bukan untuk menguji efek citra yang diperkecil kemudian diperbesar kembali.
+Kedua proses tersebut dilaksanakan secara independen dengan tujuan untuk menguji performa masing-masing metode, bukan untuk menguji efek citra yang diperkecil kemudian diperbesar kembali.
 
 **3. Hasil Down Sampling**
 
-Pada foto Pionir, perbedaan antar metode terlihat paling jelas. Karena foto ini banyak mengandung cahaya matahari yang menembus sela-sela daun, hasil Max Pooling menjadi penuh noise putih yang cukup mengganggu di area pepohonan dan langit. Hal ini terjadi karena Max Pooling selalu mengambil nilai piksel paling terang di setiap blok, sehingga titik cahaya kecil yang sebelumnya hanya terselip di sela-sela daun justru melebar dan terlihat berlebihan. Average Pooling dan Median Pooling menghasilkan citra yang lebih bersih, tanpa noise seperti pada Max Pooling.
+Perbedaan antarmetode paling terlihat pada citra Pionir. Oleh karena citra ini mengandung banyak cahaya matahari yang menembus sela-sela daun, hasil Max Pooling menampilkan noise putih yang cukup mengganggu, terutama pada area pepohonan dan langit. Hal tersebut terjadi karena Max Pooling senantiasa mengambil nilai piksel paling terang pada setiap blok, sehingga titik cahaya kecil yang semula hanya muncul di sela-sela daun menjadi melebar dan tampak berlebihan. Sebaliknya, Average Pooling dan Median Pooling menghasilkan citra yang lebih bersih dan tidak menampilkan noise sebagaimana pada Max Pooling.
 
-Pada foto Sawah, ketiga metode menghasilkan citra yang cukup mirip secara umum, tetapi jika diperhatikan lebih detail pada bagian dedaunan kelapa, Max Pooling membuat area tersebut terlihat sedikit lebih terang dan kurang halus dibandingkan Average dan Median Pooling.
+Pada citra Sawah, ketiga metode menghasilkan citra yang secara umum cukup serupa. Namun demikian, apabila diamati lebih saksama pada bagian dedaunan kelapa, hasil Max Pooling tampak sedikit lebih terang dan kurang halus dibandingkan dengan Average Pooling dan Median Pooling.
 
-Pada foto Sunset, bentuk matahari pada hasil Max Pooling terlihat sedikit melebar dan menyerupai kotak dibandingkan Average dan Median Pooling, karena seluruh piksel terang di sekitar matahari ikut terambil ketika diambil nilai maksimalnya.
+Pada citra Sunset, bentuk matahari pada hasil Max Pooling tampak sedikit melebar dan menyerupai bentuk kotak dibandingkan dengan hasil Average Pooling dan Median Pooling. Hal ini disebabkan oleh seluruh piksel terang di sekitar matahari yang turut terambil ketika nilai maksimal dihitung.
 
-Dapat disimpulkan bahwa Max Pooling paling berisiko digunakan pada foto dengan kontras cahaya tinggi (seperti Pionir), sedangkan Average dan Median Pooling lebih stabil digunakan pada berbagai jenis foto. Median Pooling menjadi pilihan paling seimbang karena tetap menghasilkan citra yang halus tanpa merusak objek terang seekstrem Max Pooling.
+Berdasarkan uraian tersebut, dapat disimpulkan bahwa Max Pooling memiliki risiko paling tinggi apabila diterapkan pada citra dengan kontras cahaya tinggi, seperti pada citra Pionir. Sementara itu, Average Pooling dan Median Pooling terbukti lebih stabil untuk diterapkan pada berbagai jenis citra. Median Pooling merupakan metode yang paling seimbang, karena tetap menghasilkan citra yang halus tanpa merusak objek terang seekstrem Max Pooling.
 
 **4. Hasil Up Sampling**
 
-Karena up sampling dikerjakan langsung dari citra baseline (bukan dari hasil down sampling), hasilnya pada ketiga foto jauh lebih halus dan hampir identik dengan citra aslinya secara sekilas. Hal ini menunjukkan bahwa kualitas hasil up sampling sangat bergantung pada resolusi citra sumbernya; apabila sumbernya masih memiliki detail yang utuh, ketiga metode (NN, Bilinear, Bicubic) akan menghasilkan citra yang terlihat mirip satu sama lain.
+Oleh karena proses up sampling dilakukan langsung dari citra baseline dan bukan dari hasil down sampling, hasil yang diperoleh pada ketiga citra tampak jauh lebih halus dan hampir menyerupai citra aslinya apabila diamati secara sekilas. Hal ini menunjukkan bahwa kualitas hasil up sampling sangat bergantung pada resolusi citra sumber. Apabila citra sumber masih memiliki detail yang utuh, ketiga metode (NN, Bilinear, dan Bicubic) akan menghasilkan citra yang relatif serupa satu sama lain.
 
-Jika diperhatikan lebih detail pada bagian tepi-tepi kecil (ranting pohon, garis pagar), Nearest Neighbor tetap menghasilkan tepi yang paling kasar, Bilinear menghasilkan transisi yang lebih halus, dan Bicubic paling halus di antara ketiganya. Namun, karena sumbernya menggunakan resolusi tinggi, perbedaan ketiga metode ini tidak semencolok apabila up sampling dikerjakan dari citra yang sudah diperkecil terlebih dahulu.
+Meskipun demikian, apabila diamati lebih saksama pada bagian tepi-tepi kecil, seperti ranting pohon dan garis pagar, metode Nearest Neighbor tetap menghasilkan tepi yang paling kasar, Bilinear menghasilkan transisi yang lebih halus, dan Bicubic menghasilkan hasil paling halus di antara ketiganya. Meskipun demikian, oleh karena citra sumber yang digunakan beresolusi tinggi, perbedaan antarmetode tersebut tidak tampak semencolok apabila dibandingkan dengan up sampling yang dikerjakan dari citra yang telah diperkecil terlebih dahulu.
 
-**5. Perbandingan Down Sampling vs Up Sampling**
+**5. Perbandingan Down Sampling dan Up Sampling**
 
-Dari percobaan yang dipisahkan ini, terlihat jelas bahwa down sampling merupakan proses yang menghilangkan informasi secara permanen (irreversible), sedangkan up sampling hanya menebak atau menginterpolasi nilai piksel baru berdasarkan piksel yang sudah ada. Apabila up sampling dikerjakan dari citra yang resolusinya masih utuh, hasilnya akan halus dan detailnya tetap terjaga. Namun apabila up sampling dikerjakan dari citra yang sudah di-downsampling terlebih dahulu, hasilnya akan tetap terlihat pecah atau buram walaupun menggunakan metode paling canggih sekalipun (Bicubic), karena detail yang sudah hilang memang tidak dapat dikembalikan lagi.
+Berdasarkan hasil pengujian yang dilakukan secara terpisah ini, dapat dinyatakan bahwa down sampling merupakan proses yang menghilangkan informasi secara permanen (irreversible), sedangkan up sampling hanya melakukan pendugaan atau interpolasi terhadap nilai piksel baru berdasarkan piksel yang telah ada. Apabila proses up sampling dilakukan terhadap citra yang resolusinya masih utuh, hasil yang diperoleh akan tetap halus dan detailnya tetap terjaga. Namun demikian, apabila up sampling dilakukan terhadap citra yang telah mengalami down sampling terlebih dahulu, hasilnya akan tetap tampak pecah atau buram, sekalipun menggunakan metode yang paling canggih seperti Bicubic, hal ini karena detail yang telah hilang tidak dapat dikembalikan kembali.
 
 **6. Kesimpulan**
 
-Max Pooling paling berisiko digunakan pada foto dengan kontras cahaya tinggi (seperti foto Pionir yang backlit), karena dapat menimbulkan artefak berupa bercak putih. Average dan Median Pooling lebih stabil dan konsisten untuk berbagai jenis foto.
+Max Pooling memiliki risiko paling tinggi apabila diterapkan pada citra dengan kontras cahaya tinggi, seperti citra Pionir yang bersifat backlit, karena dapat menimbulkan artefak berupa bercak putih. Adapun Average Pooling dan Median Pooling terbukti lebih stabil dan konsisten untuk diterapkan pada berbagai jenis citra.
 
-Nearest Neighbor, Bilinear, dan Bicubic sama-sama dapat memperbesar citra, tetapi kualitas hasilnya sangat bergantung pada resolusi citra sumbernya. Apabila sumbernya beresolusi tinggi, ketiga metode menghasilkan citra yang sudah cukup mirip. Apabila sumbernya beresolusi rendah, barulah terlihat perbedaan yang jelas. Bicubic paling halus, NN paling kasar.
+Metode Nearest Neighbor, Bilinear, dan Bicubic sama-sama mampu memperbesar ukuran citra, tetapi kualitas hasilnya sangat bergantung pada resolusi citra sumber. Apabila citra sumber beresolusi tinggi, ketiga metode menghasilkan citra yang relatif serupa. Perbedaan yang jelas baru tampak apabila citra sumber beresolusi rendah. Di antara ketiganya, Bicubic menghasilkan citra paling halus, sedangkan Nearest Neighbor menghasilkan citra paling kasar.
 
-Down sampling dan up sampling merupakan dua proses dengan tujuan yang berbeda: down sampling bertujuan mengurangi ukuran/resolusi citra (dan pasti kehilangan informasi), sedangkan up sampling bertujuan memperbesar ukuran citra (tetapi tidak dapat menambahkan informasi baru yang benar-benar valid, hanya menebak atau menginterpolasi saja).
+Down sampling dan up sampling merupakan dua proses dengan tujuan yang berbeda. Down sampling bertujuan untuk mengurangi ukuran atau resolusi citra dan senantiasa disertai dengan kehilangan informasi, sedangkan up sampling bertujuan untuk memperbesar ukuran citra, tetapi tidak dapat menambahkan informasi baru yang benar-benar valid, melainkan hanya melakukan pendugaan atau interpolasi.
 
-Karakteristik pencahayaan pada foto sangat berpengaruh terhadap hasil pengolahan, terutama untuk down sampling. Foto dengan kontras ekstrem (Pionir) menunjukkan perbedaan paling jelas antar metode, sedangkan foto dengan tekstur lebih merata (Sawah, Sunset) perbedaannya lebih halus.
+Karakteristik pencahayaan pada citra terbukti sangat berpengaruh terhadap hasil pengolahan, terutama pada proses down sampling. Citra dengan kontras ekstrem, seperti Pionir, menunjukkan perbedaan paling jelas antarmetode, sedangkan citra dengan tekstur yang lebih merata, seperti Sawah dan Sunset, menunjukkan perbedaan yang lebih halus.
